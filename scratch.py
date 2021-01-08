@@ -1,12 +1,17 @@
 from tree import Node
 
-n1 = Node("n1")
-n2 = Node("n2")
-n3 = Node("n3")
+Bob = Node("Bob")
+Marni = Node("Marni")
+Declan = Node("Declan")
 
-n1.add_child(n2)
-n1.add_child(n2)
-n1.add_child(n3)
+Bob.add_child(Marni)
+Bob.add_child(Declan)
 
-print(n1.children)
-print(n2.parent == n1)
+Declan.parent = Bob
+Declan.parent = Marni
+
+print('Bob\'s children:  ', Bob.children)
+print('Marni\'s parent:  ', Marni.parent)
+print('Marni\'s children:  ', Marni.children)
+print('Declan\'s parent:  ', Declan.parent)
+print('Declan\'s children:  ', Declan.children)
