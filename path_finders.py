@@ -2,8 +2,8 @@ from tree import Node
 
 class KnightPathFinder:
     def __init__(self, pos):
-        self._root = pos
-        self._considered_positions = set()
+        self._root = Node(pos)
+        self._considered_positions = set(pos)
 
     def get_valid_moves(self, pos):
         knight_moves = [
@@ -31,8 +31,24 @@ class KnightPathFinder:
     def new_move_positions(self, pos):
         moves = set(self.get_valid_moves(pos))
         new_moves = moves.difference(self._considered_positions)
-        self._considered_positions=new_moves.union(self._considered_positions)
+        self._considered_positions = new_moves.union(
+            self._considered_positions
+            )
         return new_moves
 
+    def build_move_tree(self):
+        queue = [self._root]
+        while len(queue) > 0:
+            current_node = queue.pop(0)
+            current_position = current_node.value
+            possible_moves = self.new_move_positions(current_position)
+            for move in possible_moves:
+                new_node = Node(move)
+                current_node.add_child(new_node)
+                queue.append(new_node)
+
+
 finder = KnightPathFinder((0, 0))
-print(finder.new_move_positions((0, 0)))   # Expected outcome: {(1, 2), (2, 1)}
+finder.build_move_tree()
+print(finder._root.value)
+print(finder._root.children)
