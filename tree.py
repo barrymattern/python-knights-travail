@@ -28,11 +28,29 @@ class Node:
 
     @parent.setter
     def parent(self, node):
-        if self._parent == node:
-            node.remove_child(self)
-        if node is not None:
-            self._parent = node
+        if self._parent:
+            self._parent.remove_child(self)
+        if node:
             node.add_child(self)
+        self._parent = node
+
+    def depth_search(self, value):
+        if self.value == value:
+            return self
+        for node in self.children:
+            new_node = node.depth_search(value)
+            if new_node:
+                return new_node
+        return
+
+    def breadth_search(self, value):
+        queue = [self]
+        while len(queue) > 0:
+            node = queue.pop(0)
+            if node.value == value:
+                return node
+            queue += node.children
+        return
 
     def __repr__(self):
         return f'<Node val={self._value}>'
